@@ -2,7 +2,7 @@
 
 A basic CLI port scanner, which checks for open ports in a IPv4 address.
 
-## The coloured text is available only on UNIX systems (ref: https://stackoverflow.com/a/287944).
+#### The coloured text is available only on UNIX systems (ref: https://stackoverflow.com/a/287944).
 ----------------------------------------------------------------------------------------------------
 
 ### Arguments:
