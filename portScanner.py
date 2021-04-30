@@ -40,6 +40,7 @@ class Colors:
 starting_port  = None
 ending_port    = None
 ports_number   = 65535
+open_ports     = 0
 open_ports_array = []
 separator = ", " # We use it for the open ports print at the end of the program
 
