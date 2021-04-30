@@ -41,7 +41,7 @@ starting_port  = None
 ending_port    = None
 ports_number   = 65535
 open_ports_array = []
-separator = ", " # We use it for the open ports print in the end of the program
+separator = ", " # We use it for the open ports print at the end of the program
 
 # The blocks' list of the splitted IPs to assign on each thread.
 block_list = []
