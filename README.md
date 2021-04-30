@@ -7,8 +7,8 @@ A basic CLI port scanner, which checks for open ports in a IPv4 address.
 
 ### Usage:
 	- To scan a range of ports: `python3 portScanner.py <IP> <from_port[OPTIONAL]> <to_port[OPTIONAL]>`
-	- To scan only one port:  `python3 portScanner.py <IP> <port>`
-	- To scan all 65535 ports: `python3 portScanner.py <IP>`
+	- To scan only one port   : `python3 portScanner.py <IP> <port>`
+	- To scan all 65535 ports : `python3 portScanner.py <IP>`
 
 ----------------------------------------------------------------------------------------------------
 
