@@ -114,8 +114,8 @@ if len(sys.argv) >= 2:
 	target = sys.argv[1] #Translate hostname to IPv4
 else:
 	print(Colors.red + "Invalid amount of arguments.")
-	print(Colors.none + "Syntax: python3 protScanner.py <IP> <from_port[OPTIONAL]> <to_port[OPTIONAL]>")
-	print(Colors.none + "For only one port check use syntax: python3 protScanner.py <IP> <port>")
+	print(Colors.none + "Syntax: python3 portScanner.py <IP> <from_port[OPTIONAL]> <to_port[OPTIONAL]>")
+	print(Colors.none + "For only one port check use syntax: python3 portScanner.py <IP> <port>")
 	sys.exit()
 
 # Checks if it is a valid IPv4 address
