@@ -214,3 +214,8 @@ total =  finishing_time - starting_time
 print("Scanning Completed in:", total)
 print("Found " + Colors.green + str(open_ports) + Colors.none +" port(s) open.")
 print("Open ports: " + Colors.green + separator.join(open_ports_array))
+
+
+######################
+# END OF THE PROGRAM #
+######################
