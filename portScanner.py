@@ -27,25 +27,29 @@ import socket, errno
 from datetime import datetime
 import re #RegEx
 import threading
+import platform
 
-class Colors:
-	none   = "\033[0m";
-	red    = "\033[31m";
-	green  = "\033[32m";
-	yellow = "\033[33m";
-	blue   = "\033[34m";
-	purple = "\033[35m";
-	cyan   = "\033[36m";
 
-starting_port  = None
-ending_port    = None
-ports_number   = 65535
-open_ports     = 0
+starting_port    = None
+ending_port      = None
+ports_number     = 65535
+open_ports       = 0
 open_ports_array = []
-separator = ", " # We use it for the open ports print at the end of the program
+separator        = ", " # We use it for the open ports print at the end of the program
+host_os          = platform.system()
+is_windows       = host_os == "Windows"
 
 # The blocks' list of the splitted IPs to assign on each thread.
 block_list = []
+
+class Colors:
+	none   = "" if is_windows else "\033[0m";
+	red    = "" if is_windows else "\033[31m";
+	green  = "" if is_windows else "\033[32m";
+	yellow = "" if is_windows else "\033[33m";
+	blue   = "" if is_windows else "\033[34m";
+	purple = "" if is_windows else "\033[35m";
+	cyan   = "" if is_windows else "\033[36m";
 
 pattern = re.compile("^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$")
 
