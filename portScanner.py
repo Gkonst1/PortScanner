@@ -219,3 +219,8 @@ print("Found " + Colors.green + str(open_ports) + Colors.none +" port(s) open.")
 
 if open_ports != 0:
 	print("Open ports: " + Colors.green + separator.join(open_ports_array))
+
+
+######################
+# END OF THE PROGRAM #
+######################
