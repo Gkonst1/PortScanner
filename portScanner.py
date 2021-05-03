@@ -86,7 +86,8 @@ def checkPortsRange(thread, start_point, end_point):
 	print(Colors.none + f"Thread {thread} executing...")
 	print("")
 
-	for port in range(start_point, end_point):
+	range_fix = 1 if thread != 5 else 2
+	for port in range(start_point, end_point + range_fix):
 		createSocketAndCheckPort(port)
 
 	print("")
@@ -130,16 +131,18 @@ if not pattern.match(target):
 
 if len(sys.argv) == 4:
 	try:
-		min_value = int(sys.argv[2])
-		max_value = int(sys.argv[3])
+		starting_port = int(sys.argv[2])
+		ending_port = int(sys.argv[3])
 
-		if min_value < max_value:
-			if min_value >= 1 and max_value <= 65535:
-				starting_port = min_value
-				ending_port   = max_value
+		if starting_port > ending_port:
+			starting_port, ending_port = ending_port, starting_port
+
+		if not 1 <= starting_port <= ending_port <= ports_number:
+			raise ValueError()
 	except ValueError:
 		print(Colors.red + "Invalid port numbers" + Colors.none)
 		print("Port numbers should be integers between 1 and 65535")
+		sys.exit()
 elif len(sys.argv) == 3:
 	port = int(sys.argv[2])
 	createSocketAndCheckPort(port)
@@ -158,39 +161,39 @@ print("-" * 50)
 
 try:
 	if starting_port is not None and ending_port is not None:
-		if ending_port - starting_port != 0:
-			ports_number = ending_port - starting_port
+		if ending_port != starting_port:
+			ports_number = ending_port - starting_port + 1
+
+			if ports_number <= 10:
+				checkPortsRange(thread= 1, start_point= starting_port, end_point= ending_port)
+			else:
+				createIPsBlocks(range(starting_port, ending_port), 5)
 		else:
 			# It is the case that the starting_port is the same number as the ending_port,
 			# so we need to check just 1 port.
 			createSocketAndCheckPort(starting_port)
 			sys.exit()
-
-	if ports_number <= 10:
-		checkPortsRange(thread= 1, start_point= starting_port, end_point= ending_port)
 	else:
-		createIPsBlocks(range(1, ports_number), 5)
+		if ports_number <= 10:
+			checkPortsRange(thread= 1, start_point= starting_port, end_point= ending_port)
+		else:
+			createIPsBlocks(range(1, ports_number), 5)
 
 	# Create the threads
-	worker_1 = threading.Thread(target= checkPortsRange(thread= 1, start_point= block_list[0][0], end_point= block_list[0][-1]), name= 't1')
-	worker_2 = threading.Thread(target= checkPortsRange(thread= 2, start_point= block_list[1][0], end_point= block_list[1][-1]), name= 't2')
-	worker_3 = threading.Thread(target= checkPortsRange(thread= 3, start_point= block_list[2][0], end_point= block_list[2][-1]), name= 't3')
-	worker_4 = threading.Thread(target= checkPortsRange(thread= 4, start_point= block_list[3][0], end_point= block_list[3][-1]), name= 't4')
-	worker_5 = threading.Thread(target= checkPortsRange(thread= 5, start_point= block_list[4][0], end_point= block_list[4][-1]), name= 't5')
+	threads = []
+
+	for i in range(len(block_list)):
+		t = threading.Thread(target= checkPortsRange(thread= i + 1, start_point= block_list[i][0], end_point= block_list[i][-1]))
+		t.deamon = True
+		threads.append(t)
 
 	# Start the threads
-	worker_1.start()
-	worker_2.start()
-	worker_3.start()
-	worker_4.start()
-	worker_5.start()
+	for thread in threads:
+		thread.start()
 
 	# Stop execution of current program until a thread is complete
-	worker_1.join()
-	worker_2.join()
-	worker_3.join()
-	worker_4.join()
-	worker_5.join()
+	for thread in threads:
+		thread.join()
 
 except KeyboardInterrupt:
 	print("\nExiting program.")
@@ -213,4 +216,6 @@ total =  finishing_time - starting_time
 # Printing the information to screen
 print("Scanning Completed in:", total)
 print("Found " + Colors.green + str(open_ports) + Colors.none +" port(s) open.")
-print("Open ports: " + Colors.green + separator.join(open_ports_array))
+
+if open_ports != 0:
+	print("Open ports: " + Colors.green + separator.join(open_ports_array))
